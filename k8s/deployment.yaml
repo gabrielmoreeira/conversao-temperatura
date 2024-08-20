@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: conversao-temperatura
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: conversao-temperatura
+  template:
+    metadata:
+      labels:
+        app: conversao-temperatura
+    spec:
+      containers:
+      - name: conversao
+        image: gabrielmoreeira/conversao-temperatura:v2
+        resources:
+          requests:
+            memory: "100Mi"  # Solicita 64 MiB de memória mínima
+            cpu: "250m"     # Solicita 250 millicores de CPU mínima
+          limits:
+            memory: "200Mi"   # Limita o uso de memória a 128 MiB
+            cpu: "500m"     # Limita o uso de CPU a 500 millicores
+        ports:
+          - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: conversao-temperatura
+spec:
+  selector:
+    app: conversao-temperatura
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 8080
+      nodePort: 30000
