@@ -26,6 +26,7 @@ kubectl rollout undo deployment conversao-temperatura && watch 'kubectl get pod'
 k3d cluster list
 k3d cluster delete "nome cluster"
 k3d cluster create meucluster --servers 3 --agents 3 -p 30000:30000@loadbalancer
+k3d cluster create meucluster --servers 1 --agents 1 -p 30000:30000@loadbalancer
 
 ### Docker
 docker build -t gabrielmoreeira/conversao-temperatura:v2 --push .
